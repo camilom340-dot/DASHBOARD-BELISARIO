@@ -289,7 +289,7 @@ export function parseBelisarioExcel(file: ArrayBuffer): ParsedScorecard {
         // DEBUG: Log all Mercadeo values or suspicious zeros to find missing data
         if (r.areaId === "MERCADEO" || (value === 0 && r.weightInArea > 0.05)) {
           if (r.areaId === "MERCADEO") {
-            allLogs.push(`DEBUG MERCADEO: ${u.name} - ${r.name} (R${r.rowIdx}:C${col.calificacionCol}) Score="${rawScore}" Ind="${rawIndicador}" Val=${value} TotalScore=${u.excelScore.toFixed(4)}`);
+            allLogs.push(`DEBUG MERCADEO: ${u.name} - ${r.name} (R${r.rowIdx}:C${col.calificacionCol}) Score="${rawScore}" Ind="${rawIndicador}" Val=${value} TotalScore=${(u.excelScore || 0).toFixed(4)}`);
           }
         }
 
