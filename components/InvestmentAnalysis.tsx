@@ -127,7 +127,7 @@ function getInvestmentInsight(roiTir: RoiTirData, unitName: string): string {
         return `✅ ${unitName} ha recuperado la inversión inicial. Con un ROI del ${(roi * 100).toFixed(0)}%, el negocio está generando ganancias netas.`;
     } else if (roi >= 0.5) {
         return `📈 ${unitName} va por buen camino. Ya se ha recuperado el ${(roi * 100).toFixed(0)}% de la inversión${recoveryMonths ? `, estimando recuperación completa en ${recoveryMonths} meses` : ""}.`;
-    } else if (tirAnnual > 0) {
+    } else if (tirAnnual > 0 || roiTir.tirMensual > 0) {
         return `⏳ ${unitName} está en fase de crecimiento. El TIR positivo indica que la inversión es viable, pero tomará más tiempo recuperarla.`;
     } else {
         return `⚠️ ${unitName} requiere atención. El TIR negativo sugiere que se necesitan ajustes operativos para mejorar la rentabilidad.`;
@@ -151,18 +151,12 @@ export function InvestmentAnalysis({ roiTir, unitName }: InvestmentAnalysisProps
             </div>
 
             {/* Gauges Grid */}
-            <div className="grid grid-cols-3 gap-6 mb-6">
+            <div className="grid grid-cols-2 gap-6 mb-6">
                 <CircularGauge
                     value={roiTir.roi}
                     label="ROI Total"
                     subtitle="Retorno acumulado"
                     maxValue={1}
-                />
-                <CircularGauge
-                    value={roiTir.tirAnnual}
-                    label="TIR Anual"
-                    subtitle="Tasa interna de retorno"
-                    maxValue={0.5}
                 />
                 <CircularGauge
                     value={roiTir.tirMensual}

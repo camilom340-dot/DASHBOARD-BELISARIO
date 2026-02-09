@@ -12,8 +12,8 @@ export function DonutChart({ units }: DonutChartProps) {
     const redUnits = units.filter(u => trafficLight(u.score) === "red");
 
     const data = [
-        { name: "Excelente", value: greenUnits.length, units: greenUnits, color: "#22c55e", icon: "🟢" },
-        { name: "Aceptable", value: yellowUnits.length, units: yellowUnits, color: "#f59e0b", icon: "🟡" },
+        { name: "Sólido", value: greenUnits.length, units: greenUnits, color: "#22c55e", icon: "🟢" },
+        { name: "Estable", value: yellowUnits.length, units: yellowUnits, color: "#f59e0b", icon: "🟡" },
         { name: "SOS", value: redUnits.length, units: redUnits, color: "#ef4444", icon: "🔴" }
     ].filter(d => d.value >= 0); // Keep all to show 0 if needed, or filter? User wants to see names.
 
@@ -80,7 +80,7 @@ export function DonutChart({ units }: DonutChartProps) {
                 <div className="flex flex-col items-center">
                     <div className="flex items-center gap-1 mb-1">
                         <div className="w-2 h-2 rounded-full bg-green-500" />
-                        <span className="text-green-400 font-bold text-sm">{greenUnits.length} Excelentes {'>'}60%</span>
+                        <span className="text-green-400 font-bold text-sm">{greenUnits.length} Sólidos {'>'}60%</span>
                     </div>
                     <div className="text-[10px] text-zinc-400 max-h-[100px] overflow-y-auto w-full px-1 scrollbar-hide">
                         {greenUnits.map(u => (
@@ -92,7 +92,7 @@ export function DonutChart({ units }: DonutChartProps) {
                 <div className="flex flex-col items-center">
                     <div className="flex items-center gap-1 mb-1">
                         <div className="w-2 h-2 rounded-full bg-yellow-500" />
-                        <span className="text-yellow-400 font-bold text-sm">{yellowUnits.length} Aceptable 35-60%</span>
+                        <span className="text-yellow-400 font-bold text-sm">{yellowUnits.length} Estable 35-60%</span>
                     </div>
                     <div className="text-[10px] text-zinc-400 max-h-[100px] overflow-y-auto w-full px-1 scrollbar-hide">
                         {yellowUnits.map(u => (

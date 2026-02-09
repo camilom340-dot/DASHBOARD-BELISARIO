@@ -34,8 +34,8 @@ export function UnitDetail({ unit, areas, breakdown, onBack }: {
   const scorePercent = (breakdown.scoreTotal * 100).toFixed(0);
 
   const toneLabels = {
-    green: { text: "Excelente", emoji: "🟢", gradient: "from-green-500 to-emerald-500" },
-    yellow: { text: "Aceptable", emoji: "🟡", gradient: "from-yellow-500 to-orange-500" },
+    green: { text: "Sólido", emoji: "🟢", gradient: "from-green-500 to-emerald-500" },
+    yellow: { text: "Estable", emoji: "🟡", gradient: "from-yellow-500 to-orange-500" },
     red: { text: "SOS", emoji: "🔴", gradient: "from-red-500 to-rose-500" }
   };
 

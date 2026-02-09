@@ -4,13 +4,10 @@ import { useState, useMemo, useRef } from "react";
 import * as XLSX from "xlsx";
 import { parseBelisarioExcel, ParsedScorecard } from "@/lib/excelParser";
 import { computeScores, trafficLight, MissingMode } from "@/lib/score";
-import { ScoreGauge } from "@/components/ScoreGauge";
-import { DonutChart } from "@/components/DonutChart";
 import { StatCard } from "@/components/ui";
-import { Histogram } from "@/components/Histogram";
-import { BusinessGrid } from "@/components/BusinessCard";
 import { UnitDetail } from "@/components/UnitDetail";
-import { Trophy, AlertTriangle, BarChart3, Upload, FileSpreadsheet, Activity, Trash2 } from "lucide-react";
+import { DashboardSection } from "@/components/DashboardSection";
+import { Upload, FileSpreadsheet, Activity, Trash2 } from "lucide-react";
 import clsx from "clsx";
 
 export default function Page() {
@@ -217,100 +214,45 @@ export default function Page() {
       {/* Main Content */}
       {parsedData && stats && (
         <>
-          {/* Overview Section */}
-          <section className="space-y-4">
-            <div className="flex items-center gap-3">
-              <Activity className="text-purple-400" />
-              <h2 className="text-xl font-bold text-white">
-                {filterType === "all" ? "Resumen General" : filterType === "restaurant" ? "Resumen Restaurantes" : "Resumen Discotecas"}
-              </h2>
-            </div>
-            <p className="text-zinc-500 text-sm">Vista panorámica del desempeño de {stats.total} negocios</p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-zinc-900/50 border border-zinc-800/50 rounded-2xl p-6 flex items-center justify-center">
-                <div className="w-full max-w-[250px]">
-                  <ScoreGauge score={stats.avg} size="lg" />
-                </div>
-              </div>
+          {/* Dashboard Content */}
+          <div className="mb-12">
+            {filterType === "all" ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 relative animate-in fade-in slide-in-from-bottom-4 duration-700">
+                {/* Vertical Divider for large screens */}
+                <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-zinc-800 to-transparent" />
 
-              <div className="bg-zinc-900/50 border border-zinc-800/50 rounded-2xl p-6">
-                <DonutChart
-                  units={filteredUnits.map(u => ({ name: u.name, score: u.score.scoreTotal }))}
+                <DashboardSection
+                  title="Restaurantes"
+                  icon="🍽️"
+                  units={filteredUnits.filter(u => u.type === 'restaurant')}
+                  areas={parsedData.areas}
+                  isSplitView={true}
+                  selectedUnitId={selectedUnitId}
+                  onSelectUnit={setSelectedUnitId}
+                />
+                <DashboardSection
+                  title="Discotecas"
+                  icon="🎉"
+                  units={filteredUnits.filter(u => u.type === 'disco')}
+                  areas={parsedData.areas}
+                  isSplitView={true}
+                  selectedUnitId={selectedUnitId}
+                  onSelectUnit={setSelectedUnitId}
                 />
               </div>
-
-              <div className="space-y-4">
-                <StatCard
-                  icon={<Trophy size={20} className="text-yellow-400" />}
-                  label="Mejor Negocio"
-                  value={stats.best.name}
-                  subValue={`${(stats.best.score.scoreTotal * 100).toFixed(0)}% score`}
-                  tone="green"
-                  description="Negocio con mayor puntaje en el ranking"
-                />
-                <StatCard
-                  icon={<AlertTriangle size={20} className="text-yellow-400" />}
-                  label="Requiere Atención"
-                  value={stats.worst.name}
-                  subValue={`${(stats.worst.score.scoreTotal * 100).toFixed(0)}% score`}
-                  tone="red"
-                  description="Negocio con menor puntaje, priorizar mejoras"
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* Histogram Section */}
-          <section className="space-y-4 pt-4">
-            <div className="flex items-center gap-3">
-              <BarChart3 className="text-purple-400" />
-              <h2 className="text-xl font-bold text-white">Distribución de Scores</h2>
-            </div>
-            <p className="text-zinc-500 text-sm">¿Cómo se distribuyen los negocios según su puntaje?</p>
-
-            <Histogram units={filteredUnits.map(u => ({ name: u.name, score: u.score.scoreTotal }))} />
-          </section>
-
-          {/* Business Grid Section */}
-          <section className="space-y-4 pt-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                  <FileSpreadsheet className="text-purple-400" size={20} />
-                  Ranking de Negocios
-                </h2>
-                <p className="text-zinc-500 text-sm mt-1">Haz clic en un negocio para ver su análisis detallado</p>
-              </div>
-
-              <div className="flex gap-3">
-                {/* REMOVED DROPDOWN FILTER HERE, MOVED TO TABS */}
-
-                <input
-                  type="text"
-                  placeholder="Buscar negocio..."
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  className="bg-zinc-900 border border-zinc-700 text-sm rounded-lg px-3 py-2 text-white placeholder-zinc-600 focus:outline-none focus:border-purple-500 w-48"
-                />
-              </div>
-            </div>
-
-            <BusinessGrid
-              rows={filteredUnits.map(u => ({
-                unitId: u.id,
-                unitName: u.name,
-                type: u.type,
-                scoreTotal: u.score.scoreTotal,
-                scoreByArea: u.score.scoreByArea,
-                rank: u.rank,
-                roiTir: u.roiTir
-              }))}
-              areas={parsedData.areas}
-              selectedUnitId={selectedUnitId}
-              onSelect={setSelectedUnitId}
-            />
-          </section>
+            ) : (
+              <DashboardSection
+                title={filterType === "restaurant" ? "Restaurantes" : "Discotecas"}
+                icon={filterType === "restaurant" ? "🍽️" : "🎉"}
+                units={filteredUnits}
+                areas={parsedData.areas}
+                isSplitView={false}
+                selectedUnitId={selectedUnitId}
+                onSelectUnit={setSelectedUnitId}
+              />
+            )}
+          </div>
         </>
       )}
 
@@ -318,8 +260,8 @@ export default function Page() {
       <footer className="mt-12 text-center text-zinc-500 text-sm pb-8">
         <p>Dashboard de Análisis de Desempeño • Grupo Belisario</p>
         <div className="mt-2 flex justify-center gap-4 text-xs">
-          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> &gt;60% Excelente</span>
-          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-yellow-500"></div> 35-60% Aceptable</span>
+          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> &gt;60% Sólido</span>
+          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-yellow-500"></div> 35-60% Estable</span>
           <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-500"></div> &lt;35% SOS</span>
         </div>
       </footer>

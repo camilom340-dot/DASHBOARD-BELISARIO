@@ -71,6 +71,8 @@ export function KpiCard({ kpi, value, rawValue, meets, pointsGained, pointsPossi
     const formatValue = (val: number | string | null | undefined): string => {
         if (val === null || val === undefined || val === "") return "Sin dato";
         if (typeof val === "number") {
+            if (kpi.format === "number") return val.toFixed(1);
+            if (kpi.format === "currency") return "$" + val.toLocaleString("es-CO");
             if (val < 10 && val > -10) return (val * 100).toFixed(1) + "%";
             return val.toLocaleString("es-CO");
         }
@@ -87,6 +89,12 @@ export function KpiCard({ kpi, value, rawValue, meets, pointsGained, pointsPossi
         return map[op] || op;
     };
 
+    const formatParam = () => {
+        if (kpi.format === "number") return kpi.param;
+        if (kpi.param < 1 && kpi.param > 0) return (kpi.param * 100) + "%";
+        return kpi.param;
+    };
+
     return (
         <div className={clsx(
             "p-4 rounded-xl border bg-gradient-to-br transition-all duration-300 hover:scale-[1.02]",
@@ -101,7 +109,7 @@ export function KpiCard({ kpi, value, rawValue, meets, pointsGained, pointsPossi
                 <div className="flex-1 min-w-0">
                     <div className="font-medium text-white text-sm truncate">{kpi.name}</div>
                     <div className="text-xs text-zinc-400 mt-0.5">
-                        Meta: {formatOperator(kpi.operator)} {kpi.param < 1 && kpi.param > 0 ? (kpi.param * 100) + "%" : kpi.param}
+                        Meta: {formatOperator(kpi.operator)} {formatParam()}
                     </div>
 
                     {/* Value display */}

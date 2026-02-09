@@ -168,9 +168,10 @@ interface BusinessGridProps {
     }>;
     selectedUnitId: string | null;
     onSelect: (id: string) => void;
+    isSplitView?: boolean;
 }
 
-export function BusinessGrid({ areas, rows, selectedUnitId, onSelect }: BusinessGridProps) {
+export function BusinessGrid({ areas, rows, selectedUnitId, onSelect, isSplitView = false }: BusinessGridProps) {
     if (rows.length === 0) {
         return (
             <div className="text-center py-8 text-zinc-500">
@@ -180,7 +181,7 @@ export function BusinessGrid({ areas, rows, selectedUnitId, onSelect }: Business
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className={clsx("grid gap-4", isSplitView ? "grid-cols-1 2xl:grid-cols-2" : "grid-cols-1 md:grid-cols-2")}>
             {rows.map((r, i) => (
                 <BusinessCard
                     key={r.unitId}

@@ -259,7 +259,8 @@ export function parseBelisarioExcel(file: ArrayBuffer): ParsedScorecard {
           name: r.name,
           weightInArea: r.weightInArea,
           operator: r.operator,
-          param: r.param
+          param: r.param,
+          format: (r.name.includes("TRIP ADVISOR") || r.name.includes("GOOGLE")) ? "number" : undefined
         });
       }
     }

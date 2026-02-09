@@ -107,13 +107,14 @@ export function Toggle({ checked, onChange, labelLeft, labelRight }: {
 }
 
 // Stat Card Component
-export function StatCard({ icon, label, value, subValue, tone, description }: {
+export function StatCard({ icon, label, value, subValue, tone, description, className }: {
   icon: React.ReactNode;
   label: string;
   value: string | number;
   subValue?: string;
   tone?: "green" | "yellow" | "red" | "neutral";
   description?: string;
+  className?: string;
 }) {
   const toneClasses = {
     green: "border-l-4 border-l-green-500",
@@ -123,7 +124,7 @@ export function StatCard({ icon, label, value, subValue, tone, description }: {
   };
 
   return (
-    <Card className={clsx("animate-fade-in", tone && toneClasses[tone])}>
+    <Card className={clsx("animate-fade-in", tone && toneClasses[tone], className)}>
       <div className="flex items-start gap-4">
         <div className="text-3xl flex items-center justify-center w-10 h-10">{icon}</div>
         <div className="flex-1">

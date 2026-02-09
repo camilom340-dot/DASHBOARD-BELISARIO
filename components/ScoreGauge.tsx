@@ -106,11 +106,11 @@ export function ScoreGauge({ score, size = "md", showLabel = true, animated = tr
                 </div>
                 <div className="flex items-center gap-1">
                     <div className="w-2 h-2 rounded-full bg-yellow-500" />
-                    <span>35-60% Aceptable</span>
+                    <span>35-60% Estable</span>
                 </div>
                 <div className="flex items-center gap-1">
                     <div className="w-2 h-2 rounded-full bg-green-500" />
-                    <span>&gt;60% Excelente</span>
+                    <span>&gt;60% Sólido</span>
                 </div>
             </div>
         </div>

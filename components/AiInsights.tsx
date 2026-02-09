@@ -87,8 +87,8 @@ function getStatusEmoji(score: number): string {
 }
 
 function getStatusWord(score: number): string {
-    if (score > 0.6) return "excelente";
-    if (score >= 0.35) return "aceptable";
+    if (score > 0.6) return "sólido";
+    if (score >= 0.35) return "estable";
     return "SOS";
 }
 
