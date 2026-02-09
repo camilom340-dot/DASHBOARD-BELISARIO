@@ -382,7 +382,19 @@ export function parseBelisarioExcel(file: ArrayBuffer): ParsedScorecard {
 
           } else if (label === 'ROI' && typeof value === 'number') {
             roi = value;
-            // Try to extract recovery months from suffix (e.g., "50 MESES")
+
+            // Check Col 4 (suffix) for the "Real TIR" (e.g. 2.60%)
+            // It might come as a string "2,60%" or a raw number 0.026
+            const potentialTir = roiMatrix[r + offset]?.[4];
+            const parsedTir = asNumber(potentialTir);
+
+            if (parsedTir !== null) {
+              // User wants EXACTLY this value as the main TIR. 
+              // We'll assign it to tirMensual which is what's displayed next to ROI usually
+              tirMensual = parsedTir;
+            }
+
+            // Try to extract recovery months from extraCol (Col 5) or suffix if parsing failed
             const recoveryStr = String(extraCol || suffix || '');
             const match = recoveryStr.match(/(\d+)\s*MESES?/i);
             if (match) {
@@ -394,19 +406,12 @@ export function parseBelisarioExcel(file: ArrayBuffer): ParsedScorecard {
         // Assign orphans if slots are explicit slots are missing
         if (tirOrphans.length > 0) {
           // Sort orphans by ABSOLUTE value descending
-          // If values are negative (-53% vs -6%), we want |-0.53| > |-0.06|
           tirOrphans.sort((a, b) => Math.abs(b) - Math.abs(a));
 
-          // If explicit Annual missing, take largest orphan
-          if (tirAnnual === null && tirOrphans.length > 0) {
-            tirAnnual = tirOrphans.shift()!;
-          }
-          // If explicit Monthly missing, take next largest (which is actually smaller magnitude)
-          // Example: Orphan1 (-0.53) -> Annual. Orphan2 (-0.06) -> Monthly.
-          if (tirMensual === null && tirOrphans.length > 0) {
-            tirMensual = tirOrphans.shift()!;
-          }
+          if (tirAnnual === null && tirOrphans.length > 0) tirAnnual = tirOrphans[0];
+          if (tirMensual === null && tirOrphans.length > 0) tirMensual = tirOrphans[1] ?? tirOrphans[0];
         }
+
 
         if (tirAnnual !== null && roi !== null) {
           const roiTirData: RoiTirData = {

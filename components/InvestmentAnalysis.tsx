@@ -33,8 +33,12 @@ function CircularGauge({
     const circumference = 2 * Math.PI * radius;
     const progress = Math.abs(normalizedValue) * circumference;
 
-    const color = value >= 0.15 ? "#22c55e" : value >= 0 ? "#f59e0b" : "#ef4444";
-    const bgColor = value >= 0.15 ? "rgba(34, 197, 94, 0.1)" : value >= 0 ? "rgba(245, 158, 11, 0.1)" : "rgba(239, 68, 68, 0.1)";
+    const isGood = value >= (maxValue * 0.6); // 60% of max
+    const isWarn = value >= 0;
+
+    // Custom logic based on label if needed, or pass colors
+    const color = value >= (maxValue === 1 ? 0.5 : maxValue === 0.05 ? 0.015 : 0.15) ? "#22c55e" : value >= 0 ? "#f59e0b" : "#ef4444";
+    const bgColor = value >= (maxValue === 1 ? 0.5 : maxValue === 0.05 ? 0.015 : 0.15) ? "rgba(34, 197, 94, 0.1)" : value >= 0 ? "rgba(245, 158, 11, 0.1)" : "rgba(239, 68, 68, 0.1)";
 
     return (
         <div className="flex flex-col items-center">
