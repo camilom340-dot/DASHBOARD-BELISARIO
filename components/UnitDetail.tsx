@@ -35,8 +35,8 @@ export function UnitDetail({ unit, areas, breakdown, onBack }: {
 
   const toneLabels = {
     green: { text: "Excelente", emoji: "🟢", gradient: "from-green-500 to-emerald-500" },
-    yellow: { text: "Precaución", emoji: "🟡", gradient: "from-yellow-500 to-orange-500" },
-    red: { text: "Crítico", emoji: "🔴", gradient: "from-red-500 to-rose-500" }
+    yellow: { text: "Aceptable", emoji: "🟡", gradient: "from-yellow-500 to-orange-500" },
+    red: { text: "SOS", emoji: "🔴", gradient: "from-red-500 to-rose-500" }
   };
 
   const label = toneLabels[tone];
@@ -76,7 +76,7 @@ export function UnitDetail({ unit, areas, breakdown, onBack }: {
               <div className="flex items-center gap-2 mt-2">
                 <span className="text-2xl">{label.emoji}</span>
                 <span className={`font-semibold ${tone === "green" ? "text-green-400" :
-                    tone === "yellow" ? "text-yellow-400" : "text-red-400"
+                  tone === "yellow" ? "text-yellow-400" : "text-red-400"
                   }`}>{label.text}</span>
               </div>
             </div>
@@ -85,11 +85,11 @@ export function UnitDetail({ unit, areas, breakdown, onBack }: {
           <div className="flex items-center gap-4">
             {/* Main Score Circle */}
             <div className={`w-28 h-28 rounded-full flex flex-col items-center justify-center ${tone === "green" ? "bg-green-500/10 border-2 border-green-500" :
-                tone === "yellow" ? "bg-yellow-500/10 border-2 border-yellow-500" :
-                  "bg-red-500/10 border-2 border-red-500"
+              tone === "yellow" ? "bg-yellow-500/10 border-2 border-yellow-500" :
+                "bg-red-500/10 border-2 border-red-500"
               }`}>
               <div className={`text-4xl font-bold ${tone === "green" ? "text-green-400" :
-                  tone === "yellow" ? "text-yellow-400" : "text-red-400"
+                tone === "yellow" ? "text-yellow-400" : "text-red-400"
                 }`}>
                 {scorePercent}%
               </div>
@@ -177,8 +177,8 @@ export function UnitDetail({ unit, areas, breakdown, onBack }: {
                       </div>
                     </div>
                     <div className={`px-3 py-1 rounded-lg text-lg font-bold ${tone === "green" ? "bg-green-500/20 text-green-400" :
-                        tone === "yellow" ? "bg-yellow-500/20 text-yellow-400" :
-                          "bg-red-500/20 text-red-400"
+                      tone === "yellow" ? "bg-yellow-500/20 text-yellow-400" :
+                        "bg-red-500/20 text-red-400"
                       }`}>
                       {percent.toFixed(0)}%
                     </div>
@@ -186,8 +186,8 @@ export function UnitDetail({ unit, areas, breakdown, onBack }: {
                   <div className="h-2 bg-zinc-700 rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-700 ${tone === "green" ? "bg-gradient-to-r from-green-500 to-emerald-400" :
-                          tone === "yellow" ? "bg-gradient-to-r from-yellow-500 to-orange-400" :
-                            "bg-gradient-to-r from-red-500 to-rose-400"
+                        tone === "yellow" ? "bg-gradient-to-r from-yellow-500 to-orange-400" :
+                          "bg-gradient-to-r from-red-500 to-rose-400"
                         }`}
                       style={{ width: `${percent}%` }}
                     />

@@ -319,8 +319,8 @@ export default function Page() {
         <p>Dashboard de Análisis de Desempeño • Grupo Belisario</p>
         <div className="mt-2 flex justify-center gap-4 text-xs">
           <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-500"></div> &gt;60% Excelente</span>
-          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-yellow-500"></div> 35-60% Precaución</span>
-          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-500"></div> &lt;35% Crítico</span>
+          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-yellow-500"></div> 35-60% Aceptable</span>
+          <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-500"></div> &lt;35% SOS</span>
         </div>
       </footer>
 

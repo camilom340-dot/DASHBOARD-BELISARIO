@@ -88,8 +88,8 @@ function getStatusEmoji(score: number): string {
 
 function getStatusWord(score: number): string {
     if (score > 0.6) return "excelente";
-    if (score >= 0.35) return "precaución";
-    return "crítico";
+    if (score >= 0.35) return "aceptable";
+    return "SOS";
 }
 
 // Generate overall health narrative including financial context
@@ -103,9 +103,9 @@ function generateHealthNarrative(unitName: string, scoreTotal: number, unitType:
     } else if (scoreTotal > 0.6) {
         narrative = `${unitName} muestra un desempeño sólido (${percent}%), cumpliendo la mayoría de sus metas operativas.`;
     } else if (scoreTotal >= 0.35) {
-        narrative = `${unitName} opera bajo riesgo moderado (${percent}%), con áreas clave que requieren ajustes tácticos.`;
+        narrative = `${unitName} mantiene un desempeño regular (${percent}%), con oportunidad de mejora en áreas tácticas.`;
     } else {
-        narrative = `${unitName} enfrenta una situación crítica (${percent}%) que demanda intervención inmediata en su estructura operativa.`;
+        narrative = `${unitName} enfrenta una situación SOS (${percent}%) que demanda intervención inmediata.`;
     }
 
     // Determine financial impact context
